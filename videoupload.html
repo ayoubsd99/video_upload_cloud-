@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <input type="file" id="fileupload">
+    <div class="continer">
+      <button id="send-img">Send</button><br>
+      <video controls width="250" id ="video_up" height="250" style="background-color: black;"  src="">
+    </video>
+    
+  </div>
+</body>
+
+<script>
+    const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dgjvthpnh/video/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'luq3jlmf';
+const videofile = document.querySelector('#fileupload');
+const btn_send=document.querySelector('#send-img');
+var video=document.getElementById("video_up");
+
+btn_send.addEventListener('click', () => {
+  const file = videofile.files[0]; 
+    const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+      console.log(formData)
+  fetch(CLOUDINARY_URL, {
+    method: 'POST',
+    body: formData,
+  })
+    .then(function(res){
+        
+        console.log(res)
+        
+    })
+    .catch(err => console.error(err));
+ 
+});
+
+ 
+
+
+videofile.addEventListener("change",function(e){
+ var extention=e.target.files[0].type.split('/').pop();
+  if(extention=="mp4"){
+   //if(e.target.files[0].size<2000){
+  video.src=URL.createObjectURL(e.target.files[0])
+  console.log(e.target.files[0]);
+  console.log(video)
+ // console.log(extention)
+//}else{
+  //  alert(" file size is big than ")
+    
+  //}
+//}else{
+  //alert("file format not image ")
+}
+})
+</script>
+</html>
